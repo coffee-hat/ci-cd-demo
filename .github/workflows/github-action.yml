@@ -26,10 +26,10 @@ jobs:
       run: npm run lint
 
     - name: Upload Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-artifact
-          path: dist/
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-artifact
+        path: dist/
 
     # - name: Build app
     #   run: npm run build
