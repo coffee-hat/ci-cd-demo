@@ -2,14 +2,22 @@
   "name": "ci-cd",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node app.js"
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
+    "eslint": "^8.43.0",
+    "typescript": "^5.1.5"
   }
 }
