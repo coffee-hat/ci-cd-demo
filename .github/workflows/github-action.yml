@@ -30,15 +30,3 @@ jobs:
       with:
         name: app-artifact
         path: dist/
-
-    # - name: Build app
-    #   run: npm run build
-
-    # - name: get Artifact
-    #   run: zip -r app.zip dist/*
-
-    # - name: Upload Artifact
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: express-artifact
-    #     path: app.zip
