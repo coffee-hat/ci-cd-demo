@@ -24,6 +24,18 @@ jobs:
 
     - name: ESLint
       run: npm run lint
+
+    # - name: Exécuter les tests
+    #   run: npm test
+
+    # - name: Générer la couverture de code
+    #   run: npm run coverage
+
+    # - name: Publier le rapport
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: Rapport de couverture de code
+    #     path: path/to/coverage/report
     
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
@@ -38,3 +50,8 @@ jobs:
       with:
         name: app-artifact
         path: dist/
+    
+    - name: Deploy to Azure
+      uses: azure/webapps-deploy@v2
+      with:
+        publish-profile: ${{ secrets.AZURE_DEPLOY_SECRET }}
