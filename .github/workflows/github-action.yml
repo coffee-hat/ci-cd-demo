@@ -20,44 +20,30 @@ jobs:
       with:
         node-version: 18.x
 
-    - name: Install dependencies
-      run: npm install
+    - name: Install lint build test 
+      run: | 
+        npm install
+        npm run lint
+        npm run build
 
-    - name: Build
-      run: npm run build
-
-    - name: ESLint
-      run: npm run lint
-
-    # - name: Exécuter les tests
-    #   run: npm test
-
-    # - name: Générer la couverture de code
-    #   run: npm run coverage
-
-    # - name: Publier le rapport
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: Rapport de couverture de code
-    #     path: path/to/coverage/report
-    
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-    #ziper le fichier si trop long
+    - name: zip artifact
+      run: zip release.zip ./* -r
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
         name: app-artifact
-        path: dist/
-    
-    - name: Deploy to Azure WebApp
+        path: release.zip
+
+    - name: Déploiement sur Azure
       uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+      with:
+        app-name: hugo-webapp-cicd
         publish-profile: ${{ secrets.AZURE_DEPLOY_SECRET }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        package: .
