@@ -24,6 +24,14 @@ jobs:
 
     - name: ESLint
       run: npm run lint
+    
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    #ziper le fichier si trop long
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
