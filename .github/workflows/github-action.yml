@@ -25,6 +25,15 @@ jobs:
         npm install
         npm run lint
         npm run build
+    
+    - name: zip release
+      run: zip release.zip ./* -r
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: release
+        path: release.zip
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
@@ -32,14 +41,17 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-    - name: zip artifact
-      run: zip release.zip ./* -r
+  deploy:
+    needs: release
+    runs-on: ubuntu-latest
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
+    steps:
+    - uses: actions/download-artifact@v3
       with:
-        name: app-artifact
-        path: release.zip
+        name: release
+
+    - name: unzip release
+      run: unzip release.zip 
 
     - name: Déploiement sur Azure
       uses: azure/webapps-deploy@v2
