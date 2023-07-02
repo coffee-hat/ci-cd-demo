@@ -4,8 +4,8 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 
 env:
-  AZURE_WEBAPP_NAME: CI-CD
-  AZURE_WEBAPP_PACKAGE_PATH: '/dist'
+  AZURE_WEBAPP_NAME: hugo-webapp-cicd
+  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
 
 jobs:
   Explore-GitHub-Actions:
@@ -39,11 +39,11 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: app-artifact
-        path: release.zip
+        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
     - name: Déploiement sur Azure
       uses: azure/webapps-deploy@v2
       with:
-        app-name: hugo-webapp-cicd
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_DEPLOY_SECRET }}
-        package: .
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
